@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Karn | Developer Dashboard</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-main: #050b1a;
+      --bg-secondary: #0a1433;
+      --glass-bg: rgba(255, 255, 255, 0.06);
+      --glass-border: rgba(255, 255, 255, 0.12);
+
+      --text-main: #eaf1ff;
+      --text-muted: #8fa3c8;
+
+      --accent: #4cc9f0;
+      --accent-soft: rgba(76, 201, 240, 0.25);
+
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Kanit', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top right, #0f1b4c, transparent 60%),
+        radial-gradient(circle at bottom left, #020617, transparent 50%),
+        var(--bg-main);
+      color: var(--text-main);
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* ===== Layout ===== */
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 28px;
+      display: flex;
+      gap: 28px;
+    }
+
+    aside {
+      width: 28%;
+    }
+
+    main {
+      width: 72%;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    /* ===== Glass Card ===== */
+    .card {
+      background: linear-gradient(
+        145deg,
+        rgba(255,255,255,0.08),
+        rgba(255,255,255,0.02)
+      );
+      backdrop-filter: blur(18px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow:
+        0 20px 40px rgba(0,0,0,0.55),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+
+    /* ===== Sidebar ===== */
+    .profile {
+      text-align: center;
+    }
+
+    .profile img {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--accent);
+      box-shadow: 0 0 25px var(--accent-soft);
+      margin-bottom: 16px;
+    }
+
+    .profile h2 {
+      font-weight: 600;
+    }
+
+    .profile .role {
+      color: var(--accent);
+      font-size: 0.95rem;
+      margin-top: 4px;
+    }
+
+    .profile .bio {
+      margin-top: 10px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .socials {
+      margin-top: 18px;
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      font-size: 0.85rem;
+    }
+
+    /* ===== Resume ===== */
+    .typing {
+      margin-top: 10px;
+      color: var(--accent);
+      min-height: 28px;
+    }
+
+    .tech-list {
+      margin-top: 16px;
+      list-style: none;
+    }
+
+    .tech-list li {
+      margin-bottom: 8px;
+      color: var(--text-muted);
+    }
+
+    /* ===== Projects ===== */
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-top: 14px;
+    }
+
+    .project-card {
+      transition: all 0.25s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow:
+        0 0 0 1px var(--accent-soft),
+        0 25px 60px rgba(0,0,0,0.6);
+    }
+
+    .project-card h4 {
+      margin-bottom: 6px;
+    }
+
+    .tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 10px 0;
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: 1px solid rgba(76,201,240,0.25);
+    }
+
+    /* ===== Contribution Graph ===== */
+    .contribution-grid {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(14, 1fr);
+      gap: 6px;
+    }
+
+    .day {
+      aspect-ratio: 1 / 1;
+      border-radius: 4px;
+      background: #0b1535;
+      transition: 0.2s;
+    }
+
+    .level-1 { background: #113a8f; }
+    .level-2 { background: #1553c7; }
+    .level-3 { background: #1e6eff; }
+    .level-4 { background: #4cc9f0; }
+
+    .day:hover {
+      transform: scale(1.15);
+      box-shadow: 0 0 12px var(--accent);
+      cursor: pointer;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 900px) {
+      .container {
+        flex-direction: column;
+      }
+
+      aside, main {
+        width: 100%;
+      }
+
+      .projects {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ===== Sidebar ===== -->
+  <aside>
+    <div class="card profile">
+      <img src="IMG_4083.png" alt="Karn Profile">
+      <h2>กาณฑ์ อุปไชย</h2>
+      <div class="role">นักศึกษา</div>
+      <p class="bio">ชอบนอนน แต่ก็รักการเรียนรู้ 💙</p>
+
+      <div class="socials">
+        <a href="#">GitHub</a>
+        <a href="#">Email</a>
+        <a href="#">LinkedIn</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===== Main Content ===== -->
+  <main>
+
+    <!-- Resume -->
+    <div class="card">
+      <h2>สวัสดี! ผมชื่อ กาณฑ์ 👋</h2>
+      <div id="typing" class="typing"></div>
+
+      <ul class="tech-list">
+        <li>💻 สนใจ Frontend & Web Design</li>
+        <li>🎨 ชอบธีมมืดแบบ Modern Dashboard</li>
+        <li>📘 กำลังพัฒนา Skill JavaScript</li>
+      </ul>
+    </div>
+
+    <!-- Projects -->
+    <div class="card">
+      <h3>📌 Showcase Projects</h3>
+
+      <div class="projects">
+
+        <div class="card project-card">
+          <h4>Personal Dashboard</h4>
+          <p>Landing Page ธีม Dark Navy</p>
+          <div class="tags">
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+          </div>
+          <a href="#">View →</a>
+        </div>
+
+        <div class="card project-card">
+          <h4>Todo App</h4>
+          <p>Vanilla JS + UI สะอาดตา</p>
+          <div class="tags">
+            <span class="tag">JavaScript</span>
+          </div>
+          <a href="#">View →</a>
+        </div>
+
+        <div class="card project-card">
+          <h4>UI Concept</h4>
+          <p>Glassmorphism Dashboard</p>
+          <div class="tags">
+            <span class="tag">UI</span>
+            <span class="tag">CSS</span>
+          </div>
+          <a href="#">View →</a>
+        </div>
+
+        <div class="card project-card">
+          <h4>Mini Game</h4>
+          <p>ฝึก Logic & DOM</p>
+          <div class="tags">
+            <span class="tag">JS</span>
+          </div>
+          <a href="#">View →</a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Contribution -->
+    <div class="card">
+      <h3>📊 Contribution Graph</h3>
+      <div class="contribution-grid">
+        <div class="day level-1"></div>
+        <div class="day level-2"></div>
+        <div class="day level-3"></div>
+        <div class="day level-4"></div>
+        <div class="day level-2"></div>
+        <div class="day"></div>
+        <div class="day level-1"></div>
+        <div class="day level-3"></div>
+        <div class="day level-4"></div>
+        <div class="day level-2"></div>
+        <div class="day"></div>
+        <div class="day level-1"></div>
+        <div class="day level-2"></div>
+        <div class="day level-3"></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  const text = "ผมชอบเขียนโค้ด ออกแบบ UI เท่ๆ และใช้ชีวิตแบบชิลๆ 😎";
+  const el = document.getElementById("typing");
+  let i = 0;
+
+  function typeEffect() {
+    if (i < text.length) {
+      el.textContent += text.charAt(i);
+      i++;
+      setTimeout(typeEffect, 45);
+    }
+  }
+
+  typeEffect();
+</script>
+
+</body>
+</html>
